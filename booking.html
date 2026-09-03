@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Your Pooja — POOJAPRASAD</title>
+  <meta name="description" content="Book your pooja online. Fill in the details, confirm on WhatsApp, and pay securely.">
+  <link rel="canonical" href="https://poojaprasad.com/booking.html">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a href="index.html" class="logo">POOJA<span>PRASAD</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html#poojas">Poojas</a></li>
+          <li><a href="index.html#how-it-works">How it works</a></li>
+          <li><a href="index.html#trust">Why us</a></li>
+        </ul>
+      </nav>
+      <a href="https://wa.me/918103805945" class="btn btn-ghost">WhatsApp Us</a>
+    </div>
+  </header>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Book Your Pooja</h2>
+        <p>Fill in the details below. We'll open WhatsApp with your order summary pre-filled — confirm there, then pay securely online.</p>
+      </div>
+
+      <div class="booking-layout">
+        <div class="form-card">
+          <form id="booking-form">
+            <div class="field">
+              <label for="pooja-type">Pooja / Prasad Type</label>
+              <select id="pooja-type" required>
+                <option value="">Select a pooja</option>
+                <option value="Satyanarayan Pooja (₹1,100)">Satyanarayan Pooja — ₹1,100</option>
+                <option value="Ganesh Puja (₹750)">Ganesh Puja — ₹750</option>
+                <option value="Navgraha Shanti Pooja (₹2,100)">Navgraha Shanti Pooja — ₹2,100</option>
+                <option value="Griha Pravesh Pooja (₹2,500)">Griha Pravesh Pooja — ₹2,500</option>
+                <option value="Prasad-Only Delivery (₹350)">Prasad-Only Delivery — ₹350</option>
+                <option value="Custom / Other Pooja">Custom / Other Pooja</option>
+              </select>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="devotee-name">Devotee Name</label>
+                <input type="text" id="devotee-name" placeholder="Full name" required>
+              </div>
+              <div class="field">
+                <label for="gotra">Gotra (if known)</label>
+                <input type="text" id="gotra" placeholder="Optional">
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="pooja-date">Preferred Date</label>
+                <input type="date" id="pooja-date" required>
+              </div>
+              <div class="field">
+                <label for="phone">Your Phone / WhatsApp Number</label>
+                <input type="tel" id="phone" placeholder="10-digit mobile number" required>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="address">Delivery Address (for prasad)</label>
+              <textarea id="address" rows="3" placeholder="Full address with city, state, and PIN code" required></textarea>
+            </div>
+
+            <div class="field">
+              <label for="notes">Any Special Requests</label>
+              <textarea id="notes" rows="2" placeholder="Optional"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%; margin-top: 6px;">Continue on WhatsApp</button>
+          </form>
+        </div>
+
+        <div class="order-summary-box">
+          <h3>Order Summary</h3>
+          <div id="summary-empty" style="color: var(--ink-soft); font-size: 0.9rem;">
+            Fill in the form to see your order summary here.
+          </div>
+          <div id="summary-filled" style="display:none;">
+            <div class="order-line"><span>Pooja</span><span id="s-pooja">—</span></div>
+            <div class="order-line"><span>Devotee</span><span id="s-name">—</span></div>
+            <div class="order-line"><span>Date</span><span id="s-date">—</span></div>
+            <div class="order-line"><span>Delivery to</span><span id="s-city">—</span></div>
+          </div>
+
+          <div class="flow-note">
+            <strong>How payment works:</strong> after you confirm your order on WhatsApp, we'll share a secure Razorpay payment link. Once paid, your pooja is scheduled and prasad shipping begins.
+          </div>
+
+          <div style="margin-top:18px;">
+            <!-- Razorpay Payment Button — shown once WhatsApp confirmation is done.
+                 Replace the data-payment_button_id below if you create a new button in Razorpay. -->
+            <form>
+              <script src="https://checkout.razorpay.com/v1/payment-button.js"
+                data-payment_button_id="pl_TX4Cloh0HphWWq"
+                async>
+              </script>
+            </form>
+            <p style="font-size:0.8rem; margin-top:8px;">Pay now if you've already confirmed your order on WhatsApp.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div>© 2026 POOJAPRASAD. All rights reserved.</div>
+      <div><a href="https://wa.me/918103805945">WhatsApp: +91 81038 05945</a></div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
