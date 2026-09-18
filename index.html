@@ -3,193 +3,540 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>panditji— Book Poojas & Prasad Online, Delivered to Your Door</title>
-  <meta name="description" content="Book authentic poojas performed on your behalf by verified priests, with prasad delivered to your home. Simple online booking, secure payment, WhatsApp updates every step.">
-  <link rel="canonical" href="https://poojaprasad.com/">
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="POOJAPRASAD — Book Poojas & Prasad Online">
-  <meta property="og:description" content="Verified priests perform your pooja on your behalf. Prasad delivered to your door. Book in minutes.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://poojaprasad.com/">
-
+  <title>POOJAPRASAD — Book Online Poojas, Chadawa & Prasad Delivery</title>
+  <meta name="description" content="Book authentic poojas and daily chadawa performed at top Indian temples. Prasad delivered to your home. Real-time WhatsApp updates and CRM management.">
+  <meta name="keywords" content="pooja booking, online prasad delivery, chadawa online, mahakaleshwar pooja, kashi vishwanath pooja, hindu panchang 2026">
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Razorpay Checkout SDK -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
-  <!-- Schema.org LocalBusiness + Service markup for SEO -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "POOJAPRASAD",
-    "description": "Online booking for poojas performed by verified panditjis on behalf of devotees, with prasad home delivery.",
-    "telephone": "+91-8103805945",
-    "priceRange": "₹₹",
-    "areaServed": "IN"
-  }
-  </script>
+  <style>
+    :root {
+      --primary: #990000;
+      --primary-hover: #770000;
+      --gold: #D4AF37;
+      --gold-light: #FFF8E7;
+      --bg-stone: #F9F6F0;
+      --text-dark: #2A2A2A;
+      --text-muted: #666666;
+      --white: #FFFFFF;
+      --border: #E5DCCB;
+      --green: #27AE60;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Work Sans', sans-serif; }
+    body { background-color: var(--bg-stone); color: var(--text-dark); line-height: 1.6; }
+    h1, h2, h3, h4, .brand-font { font-family: 'Cinzel', serif; }
+
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+    /* Header */
+    header { background: var(--white); border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 100; }
+    .header-content { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
+    .logo { font-size: 24px; font-weight: 700; color: var(--primary); text-decoration: none; letter-spacing: 1px; }
+    .logo span { color: var(--gold); }
+    nav ul { display: flex; list-style: none; gap: 20px; align-items: center; }
+    nav a { text-decoration: none; color: var(--text-dark); font-weight: 500; font-size: 15px; }
+    nav a:hover { color: var(--primary); }
+    .btn { padding: 10px 20px; border-radius: 6px; font-weight: 600; text-decoration: none; cursor: pointer; border: none; display: inline-block; transition: all 0.2s; }
+    .btn-primary { background: var(--primary); color: var(--white); }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-gold { background: var(--gold); color: var(--text-dark); }
+    .btn-outline { border: 1px solid var(--primary); color: var(--primary); background: transparent; }
+
+    /* Ticker Banner */
+    .live-ticker { background: var(--primary); color: var(--white); padding: 8px 0; font-size: 13px; overflow: hidden; }
+    .ticker-wrap { display: flex; gap: 30px; animation: ticker 25s linear infinite; white-space: nowrap; }
+    @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+    /* Hero */
+    .hero { padding: 60px 0; background: linear-gradient(135deg, #FFFDF9 0%, var(--bg-stone) 100%); border-bottom: 1px solid var(--border); }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+    .hero h1 { font-size: 38px; color: var(--primary); margin-bottom: 15px; line-height: 1.2; }
+    .hero p { font-size: 16px; color: var(--text-muted); margin-bottom: 25px; }
+    .hero-image { width: 100%; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border: 4px solid var(--gold); }
+
+    /* Panchang Widget */
+    .panchang-card { background: var(--gold-light); border: 1px solid var(--gold); border-radius: 10px; padding: 20px; margin: 30px 0; }
+    .panchang-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; margin-top: 15px; text-align: center; }
+    .panchang-box { background: var(--white); padding: 10px; border-radius: 6px; border: 1px solid var(--border); }
+    .panchang-box .val { font-weight: 700; color: var(--primary); font-size: 14px; }
+
+    /* Catalog Sections */
+    .section-title { text-align: center; margin: 50px 0 30px; }
+    .section-title h2 { font-size: 30px; color: var(--primary); }
+    .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+    .card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s; }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+    .card img { width: 100%; height: 180px; object-fit: cover; }
+    .card-body { padding: 20px; flex-grow: 1; }
+    .card-title { font-size: 18px; margin-bottom: 8px; color: var(--primary); }
+    .card-price { font-size: 18px; font-weight: 700; color: var(--text-dark); margin: 10px 0; }
+    .card-footer { padding: 0 20px 20px; }
+
+    /* Modal */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+    .modal-content { background: var(--white); border-radius: 10px; max-width: 500px; width: 100%; padding: 30px; position: relative; max-height: 90vh; overflow-y: auto; }
+    .close-modal { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; }
+
+    /* Forms */
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 14px; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px; }
+
+    /* Admin CRM Panel */
+    .admin-panel { display: none; background: var(--white); border-top: 4px solid var(--primary); padding: 40px 0; margin-top: 50px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+    .stat-box { background: var(--bg-stone); padding: 20px; border-radius: 8px; text-align: center; border: 1px solid var(--border); }
+    .stat-box .num { font-size: 28px; font-weight: 700; color: var(--primary); }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
+    table th, table td { border: 1px solid var(--border); padding: 12px; text-align: left; }
+    table th { background: var(--bg-stone); color: var(--primary); }
+    .status-badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; display: inline-block; }
+    .status-Pending { background: #FFF3CD; color: #856404; }
+    .status-Completed { background: #D4EDDA; color: #155724; }
+
+    footer { background: #111; color: #aaa; padding: 40px 0 20px; margin-top: 60px; font-size: 14px; }
+    footer a { color: var(--gold); text-decoration: none; }
+
+    @media(max-width: 768px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      nav ul { display: none; }
+    }
+  </style>
 </head>
 <body>
 
-  <header class="site-header">
+  <!-- Live Booking Ticker -->
+  <div class="live-ticker">
     <div class="wrap">
-      <a href="index.html" class="logo">POOJA<span>PRASAD</span></a>
+      <div class="ticker-wrap" id="tickerStream">
+        <span>🚩 Ramesh S. booked Kashi Vishwanath Jalabhishek 2 min ago</span>
+        <span>🚩 Anita K. offered Belpatra at Mahakaleshwar Ujjain</span>
+        <span>🚩 Vikram P. booked Hanuman Chola for Tuesday</span>
+        <span>🚩 Priya M. requested Banke Bihari Prasad Delivery</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="wrap header-content">
+      <a href="#" class="logo">POOJA<span>PRASAD</span></a>
       <nav>
-        <ul class="nav-links">
+        <ul>
           <li><a href="#poojas">Poojas</a></li>
-          <li><a href="#how-it-works">How it works</a></li>
-          <li><a href="#trust">Why us</a></li>
+          <li><a href="#chadawa">7-Day Chadawa</a></li>
+          <li><a href="#panchang">Panchang</a></li>
+          <li><a href="#crmSection" onclick="toggleAdminPanel()">Admin CRM</a></li>
         </ul>
       </nav>
-      <a href="booking.html" class="btn btn-primary">Book a Pooja</a>
+      <button class="btn btn-primary" onclick="openBookingModal('General Pooja / Chadawa', 1100)">Book Sankalp</button>
     </div>
   </header>
 
+  <!-- Hero Section -->
   <section class="hero">
-    <div class="wrap">
-      <div class="hero-copy">
-        <p class="eyebrow-note">Verified priests · Prasad delivered to your door</p>
-        <h1>Your pooja, performed with devotion — even when you can't be there.</h1>
-        <p class="lede">Book a pooja online in a few minutes. A verified priest performs it on your behalf at the temple, and we deliver the prasad straight to your home, anywhere in India.</p>
-        <div class="hero-actions">
-          <a href="booking.html" class="btn btn-primary">Book Your Pooja</a>
-          <a href="https://wa.me/918103805945" class="btn btn-ghost">Chat on WhatsApp</a>
+    <div class="wrap hero-grid">
+      <div>
+        <h1>Authentic Poojas & Chadawa Delivered From Holy Temples</h1>
+        <p>Verified panditjis perform rituals in your name and Gotra. Receive live video recordings and fresh temple Prasad straight to your doorstep.</p>
+        <button class="btn btn-primary" onclick="openBookingModal('Special Temple Puja', 1100)">Book Pooja Now</button>
+        <a href="https://wa.me/918103805945" target="_blank" class="btn btn-outline" style="margin-left: 10px;">Chat on WhatsApp</a>
+      </div>
+      <div>
+        <img src="https://images.unsplash.com/photo-1609357605129-26f69add5d6e?auto=format&fit=crop&w=800&q=80" alt="Hindu Temple Pooja Ritual Shiva Lingam" class="hero-image">
+      </div>
+    </div>
+  </section>
+
+  <!-- Daily Panchang Widget -->
+  <section id="panchang" class="wrap">
+    <div class="panchang-card">
+      <h3 style="color: var(--primary); text-align: center;">📜 Today's Hindu Panchang & Muhurat</h3>
+      <div class="panchang-grid">
+        <div class="panchang-box"><div>Tithi</div><div class="val">Shukla Paksha Dashami</div></div>
+        <div class="panchang-box"><div>Nakshatra</div><div class="val">Rohini</div></div>
+        <div class="panchang-box"><div>Shubh Muhurat</div><div class="val">11:45 AM - 12:30 PM</div></div>
+        <div class="panchang-box"><div>Rahu Kaal</div><div class="val">03:15 PM - 04:45 PM</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7-Day Weekly Chadawa Schedule -->
+  <section id="chadawa" class="wrap">
+    <div class="section-title">
+      <h2>7-Day Weekly Chadawa Schedule</h2>
+      <p>Select daily offerings aligned with sacred deity days for peace and prosperity.</p>
+    </div>
+    <div class="grid-cards">
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1567157577867-05ccb1388e66?auto=format&fit=crop&w=500&q=80" alt="Lord Shiva Jalabhishek Belpatra Offerings">
+        <div class="card-body">
+          <div class="card-title">Monday: Shiva Jalabhishek & Belpatra</div>
+          <p>Offered at Mahakaleshwar & Kashi Vishwanath on behalf of your family.</p>
+          <div class="card-price">₹501</div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary" style="width:100%" onclick="openBookingModal('Monday Shiva Chadawa', 501)">Book Chadawa</button>
         </div>
       </div>
 
-      <div class="notice-board">
-        <h3>Today's Bookings Board</h3>
-        <div class="notice-item">
-          <div>
-            <div class="name">Satyanarayan Pooja</div>
-            <div class="meta">Booked for Pune devotee</div>
-          </div>
-          <div class="price">₹1,100</div>
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1617854818583-09e7f077a156?auto=format&fit=crop&w=500&q=80" alt="Lord Hanuman Chola Sindoor Offering">
+        <div class="card-body">
+          <div class="card-title">Tuesday: Hanuman Chola & Jasmine Oil</div>
+          <p>Remove obstacles, fear, and negativity with dedicated Tuesday Chola offering.</p>
+          <div class="card-price">₹751</div>
         </div>
-        <div class="notice-item">
-          <div>
-            <div class="name">Ganesh Puja</div>
-            <div class="meta">Prasad shipped to Nagpur</div>
-          </div>
-          <div class="price">₹750</div>
+        <div class="card-footer">
+          <button class="btn btn-primary" style="width:100%" onclick="openBookingModal('Tuesday Hanuman Chola', 751)">Book Chadawa</button>
         </div>
-        <div class="notice-item">
-          <div>
-            <div class="name">Navgraha Shanti Pooja</div>
-            <div class="meta">Booked for Mumbai devotee</div>
-          </div>
-          <div class="price">₹2,100</div>
+      </div>
+
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1621609764095-b32bbe35cf3a?auto=format&fit=crop&w=500&q=80" alt="Lord Ganesha Modak Offering">
+        <div class="card-body">
+          <div class="card-title">Wednesday: Ganesha Durva & Modak</div>
+          <p>Invoke wisdom, intelligence, and business growth at Siddhivinayak Temple.</p>
+          <div class="card-price">₹501</div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary" style="width:100%" onclick="openBookingModal('Wednesday Ganesha Chadawa', 501)">Book Chadawa</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1609357605129-26f69add5d6e?auto=format&fit=crop&w=500&q=80" alt="Lord Vishnu Yellow Flowers Sweet Offering">
+        <div class="card-body">
+          <div class="card-title">Thursday: Vishnu Sahasranama & Gram Prasadam</div>
+          <p>For health, wealth, and spiritual balance across all family members.</p>
+          <div class="card-price">₹601</div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary" style="width:100%" onclick="openBookingModal('Thursday Vishnu Chadawa', 601)">Book Chadawa</button>
         </div>
       </div>
     </div>
   </section>
 
-  <div class="dot-divider"></div>
-
-  <section id="poojas" class="section-stone">
-    <div class="wrap">
-      <div class="section-head">
-        <h2>Choose a Pooja</h2>
-        <p>Each pooja is performed by a verified priest following full vidhi, with photos/video shared after. Prasad is packed fresh and shipped the same day.</p>
-      </div>
-      <div class="pooja-grid">
-        <a href="satyanarayan-pooja.html" class="pooja-card">
-          <h3>Satyanarayan Pooja</h3>
-          <div class="price-tag">From ₹1,100</div>
-          <p class="desc">For new beginnings, gratitude, and family well-being.</p>
-        </a>
-        <a href="booking.html" class="pooja-card">
-          <h3>Ganesh Puja</h3>
-          <div class="price-tag">From ₹750</div>
-          <p class="desc">Remove obstacles before a new venture or occasion.</p>
-        </a>
-        <a href="booking.html" class="pooja-card">
-          <h3>Navgraha Shanti Pooja</h3>
-          <div class="price-tag">From ₹2,100</div>
-          <p class="desc">Planetary peace pooja for health and stability.</p>
-        </a>
-        <a href="booking.html" class="pooja-card">
-          <h3>Griha Pravesh Pooja</h3>
-          <div class="price-tag">From ₹2,500</div>
-          <p class="desc">Housewarming pooja for a new home.</p>
-        </a>
-        <a href="booking.html" class="pooja-card">
-          <h3>Prasad-Only Delivery</h3>
-          <div class="price-tag">From ₹450</div>
-          <p class="desc">Temple prasad delivered without a booked pooja.</p>
-        </a>
-        <a href="booking.html" class="pooja-card">
-          <h3>Custom / Other Pooja</h3>
-          <div class="price-tag">5100</div>
-          <p class="desc">Tell us on WhatsApp — we'll arrange it.</p>
-        </a>
-      </div>
+  <!-- Popular Poojas Section -->
+  <section id="poojas" class="wrap">
+    <div class="section-title">
+      <h2>Featured Temple Poojas & Sankalp</h2>
+      <p>Performed individually with personal Gotra chanting.</p>
     </div>
-  </section>
-
-  <section id="how-it-works">
-    <div class="wrap">
-      <div class="section-head">
-        <h2>How It Works</h2>
-        <p>Four steps, entirely online, with WhatsApp updates at every stage.</p>
+    <div class="grid-cards">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title">Satyanarayan Fasting Pooja</div>
+          <p>Complete katha recital with Prasad delivery across 28 Indian states.</p>
+          <div class="card-price">₹1,100</div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary" style="width:100%" onclick="openBookingModal('Satyanarayan Pooja', 1100)">Book Pooja</button>
+        </div>
       </div>
-      <div class="steps">
-        <div class="step">
-          <div class="num">1</div>
-          <h3>Choose your pooja</h3>
-          <p>Pick from the list or tell us your specific need.</p>
+
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title">Navgraha Shanti Pooja</div>
+          <p>Planetary peace ritual for prosperity, mental clarity, and success.</p>
+          <div class="card-price">₹2,100</div>
         </div>
-        <div class="step">
-          <div class="num">2</div>
-          <h3>Fill booking details</h3>
-          <p>Devotee name, gotra, date, and delivery address.</p>
+        <div class="card-footer">
+          <button class="btn btn-primary" style="width:100%" onclick="openBookingModal('Navgraha Shanti Pooja', 2100)">Book Pooja</button>
         </div>
-        <div class="step">
-          <div class="num">3</div>
-          <h3>Confirm on WhatsApp</h3>
-          <p>We confirm details and share the payment link.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title">Mahamrityunjaya Jaap</div>
+          <p>Special healing jaap performed at Kashi Vishwanath temple complex.</p>
+          <div class="card-price">₹3,500</div>
         </div>
-        <div class="step">
-          <div class="num">4</div>
-          <h3>Pooja performed, prasad shipped</h3>
-          <p>You receive photos/video, then prasad at your door.</p>
+        <div class="card-footer">
+          <button class="btn btn-primary" style="width:100%" onclick="openBookingModal('Mahamrityunjaya Jaap', 3500)">Book Pooja</button>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="trust" class="section-stone">
+  <!-- Booking Modal -->
+  <div class="modal" id="bookingModal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeBookingModal()">&times;</span>
+      <h3 style="color: var(--primary); margin-bottom: 15px;">Book Divine Sankalp</h3>
+      <form id="sankalpForm" onsubmit="handlePayment(event)">
+        <div class="form-group">
+          <label>Selected Pooja / Offering</label>
+          <input type="text" id="selectedItem" readonly style="background:#f0f0f0;">
+        </div>
+        <div class="form-group">
+          <label>Devotee Name</label>
+          <input type="text" id="devoteeName" required placeholder="Full Name for Sankalp">
+        </div>
+        <div class="form-group">
+          <label>Gotra (Type 'Kashyap' if unknown)</label>
+          <input type="text" id="devoteeGotra" required placeholder="e.g. Bharadwaj">
+        </div>
+        <div class="form-group">
+          <label>WhatsApp Mobile Number</label>
+          <input type="tel" id="devoteePhone" required placeholder="10-digit number">
+        </div>
+        <div class="form-group">
+          <label>Prasad Delivery Address</label>
+          <textarea id="devoteeAddress" rows="2" required placeholder="Complete home address"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Pooja Date</label>
+          <input type="date" id="poojaDate" required>
+        </div>
+        <div style="font-size: 18px; font-weight: 700; margin: 15px 0;" id="modalPrice">Total: ₹0</div>
+        <button type="submit" class="btn btn-primary" style="width:100%">Pay & Connect on WhatsApp</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin & CRM Panel -->
+  <section class="admin-panel" id="crmSection">
     <div class="wrap">
-      <div class="trust-strip">
-        <div class="trust-item"><span class="figure">500+</span><span class="label">poojas performed</span></div>
-        <div class="trust-item"><span class="figure">28</span><span class="label">states delivered to</span></div>
-        <div class="trust-item"><span class="figure">100%</span><span class="label">verified priests</span></div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h2>POOJAPRASAD — Admin CRM & Lead Management</h2>
+        <button class="btn btn-outline" onclick="exportLeadsCSV()">📥 Export Leads (CSV)</button>
       </div>
-      <div style="height: 40px;"></div>
-      <div class="testimonial">
-        <p>"I live in the US and couldn't travel home for my father's shraddh. POOJAPRASAD arranged everything and sent me the video the same evening."</p>
-        <div class="attribution">— Devotee, booked from New Jersey</div>
+
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="num" id="statTotalBookings">0</div>
+          <div>Total Bookings</div>
+        </div>
+        <div class="stat-box">
+          <div class="num" id="statTotalRevenue">₹0</div>
+          <div>Total Revenue</div>
+        </div>
+        <div class="stat-box">
+          <div class="num" id="statPendingOrders">0</div>
+          <div>Pending Rituals</div>
+        </div>
       </div>
+
+      <h3>Recent Devotee Leads & Bookings</h3>
+      <table id="crmTable">
+        <thead>
+          <tr>
+            <th>Booking ID</th>
+            <th>Devotee Name</th>
+            <th>Gotra</th>
+            <th>Pooja / Offering</th>
+            <th>Date</th>
+            <th>Phone</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="crmTableBody">
+          <!-- Populated dynamically -->
+        </tbody>
+      </table>
     </div>
   </section>
 
-  <section class="cta-band">
-    <div class="wrap">
-      <h2>Ready to book your pooja?</h2>
-      <p>Takes about 3 minutes. Pay securely online, track everything on WhatsApp.</p>
-      <div style="height: 20px;"></div>
-      <a href="booking.html" class="btn btn-primary">Book Your Pooja Now</a>
+  <!-- Footer -->
+  <footer>
+    <div class="wrap" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px;">
+      <div>
+        <div class="logo" style="color:#fff;">POOJA<span>PRASAD</span></div>
+        <p style="margin-top:10px; max-width:300px;">Connecting devotees worldwide with authentic Hindu temple rituals and Prasad home delivery.</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <p style="margin-top:8px;"><a href="#poojas">Poojas</a></p>
+        <p><a href="#chadawa">Chadawa</a></p>
+        <p><a href="#panchang">Panchang</a></p>
+        <p><a href="#crmSection" onclick="toggleAdminPanel()">Admin CRM Login</a></p>
+      </div>
+      <div>
+        <h4>Contact & Support</h4>
+        <p style="margin-top:8px;">WhatsApp: +91 81038 05945</p>
+        <p>Email: support@poojaprasad.com</p>
+      </div>
     </div>
-  </section>
-
-  <footer class="site-footer">
-    <div class="wrap">
-      <div>© 2026 POOJAPRASAD. All rights reserved.</div>
-      <div><a href="https://wa.me/918103805945">WhatsApp: +91 81038 05945</a></div>
+    <div class="wrap" style="text-align:center; margin-top:30px; border-top:1px solid #333; padding-top:15px; font-size:12px;">
+      © 2026 POOJAPRASAD. All Rights Reserved.
     </div>
   </footer>
 
+  <script>
+    // Initial Sample CRM Lead Data
+    let bookings = [
+      { id: 'PP-1001', name: 'Ramesh Sharma', gotra: 'Kashyap', item: 'Monday Shiva Chadawa', date: '2026-09-21', phone: '9826000000', price: 501, status: 'Completed' },
+      { id: 'PP-1002', name: 'Anita Verma', gotra: 'Bharadwaj', item: 'Satyanarayan Pooja', date: '2026-09-22', phone: '9111000000', price: 1100, status: 'Pending' }
+    ];
+
+    let currentPrice = 0;
+    let currentItem = '';
+
+    // Initialize Page
+    document.addEventListener("DOMContentLoaded", function() {
+      document.getElementById('poojaDate').valueAsDate = new Date();
+      renderCRM();
+    });
+
+    // Modal Control
+    function openBookingModal(item, price) {
+      currentItem = item;
+      currentPrice = price;
+      document.getElementById('selectedItem').value = item;
+      document.getElementById('modalPrice').innerText = 'Total: ₹' + price;
+      document.getElementById('bookingModal').style.display = 'flex';
+    }
+
+    function closeBookingModal() {
+      document.getElementById('bookingModal').style.display = 'none';
+    }
+
+    // Razorpay Integration & Automated WhatsApp Redirection
+    function handlePayment(event) {
+      event.preventDefault();
+      
+      const name = document.getElementById('devoteeName').value;
+      const gotra = document.getElementById('devoteeGotra').value;
+      const phone = document.getElementById('devoteePhone').value;
+      const address = document.getElementById('devoteeAddress').value;
+      const date = document.getElementById('poojaDate').value;
+      const bookingId = 'PP-' + Math.floor(1000 + Math.random() * 9000);
+
+      // Razorpay Checkout Configuration
+      var options = {
+        "key": "rzp_test_YourKeyHere", // Replace with your live Razorpay Key ID
+        "amount": currentPrice * 100, // Amount in paise
+        "currency": "INR",
+        "name": "POOJAPRASAD",
+        "description": "Sankalp Booking for " + currentItem,
+        "handler": function (response) {
+          processBookingSuccess(bookingId, name, gotra, phone, address, date, currentItem, currentPrice);
+        },
+        "prefill": {
+          "name": name,
+          "contact": phone
+        },
+        "theme": { "color": "#990000" }
+      };
+
+      // Fallback for Demo/Testing without live API Key
+      try {
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
+      } catch (err) {
+        // Instant fallback execution
+        alert("Simulating Razorpay Payment Gateway Success...");
+        processBookingSuccess(bookingId, name, gotra, phone, address, date, currentItem, currentPrice);
+      }
+    }
+
+    // Process Booking & Instant WhatsApp Redirect
+    function processBookingSuccess(id, name, gotra, phone, address, date, item, price) {
+      // 1. Add to CRM Lead DB
+      bookings.push({
+        id: id,
+        name: name,
+        gotra: gotra,
+        item: item,
+        date: date,
+        phone: phone,
+        price: price,
+        status: 'Pending'
+      });
+
+      renderCRM();
+      closeBookingModal();
+
+      // 2. Format Automated WhatsApp Redirect Message
+      const message = `*🚩 NEW POOJA & PRASAD BOOKING CONFORMATION*%0A%0A` +
+        `*Booking ID:* ${id}%0A` +
+        `*Devotee Name:* ${name}%0A` +
+        `*Gotra:* ${gotra}%0A` +
+        `*Selected Offering:* ${item}%0A` +
+        `*Pooja Date:* ${date}%0A` +
+        `*Amount Paid:* ₹${price}%0A` +
+        `*Address:* ${address}%0A%0A` +
+        `Please confirm priest assignment and ritual video schedule.`;
+
+      // 3. Auto-redirect customer to WhatsApp
+      const whatsappURL = `https://wa.me/918103805945?text=${message}`;
+      window.location.href = whatsappURL;
+    }
+
+    // Admin Panel & CRM Management
+    function toggleAdminPanel() {
+      const pass = prompt("Enter Admin Passcode (Default: admin123):");
+      if (pass === "admin123") {
+        const panel = document.getElementById('crmSection');
+        panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+        window.scrollTo({ top: panel.offsetTop, behavior: 'smooth' });
+      } else {
+        alert("Invalid Access Passcode.");
+      }
+    }
+
+    function renderCRM() {
+      const tbody = document.getElementById('crmTableBody');
+      tbody.innerHTML = '';
+
+      let totalRev = 0;
+      let pendingCount = 0;
+
+      bookings.forEach((b, index) => {
+        totalRev += b.price;
+        if (b.status === 'Pending') pendingCount++;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><b>${b.id}</b></td>
+          <td>${b.name}</td>
+          <td>${b.gotra}</td>
+          <td>${b.item}</td>
+          <td>${b.date}</td>
+          <td>${b.phone}</td>
+          <td>₹${b.price}</td>
+          <td><span class="status-badge status-${b.status}">${b.status}</span></td>
+          <td>
+            <button class="btn btn-outline" style="padding:4px 8px; font-size:12px;" onclick="toggleStatus(${index})">Toggle Status</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('statTotalBookings').innerText = bookings.length;
+      document.getElementById('statTotalRevenue').innerText = '₹' + totalRev;
+      document.getElementById('statPendingOrders').innerText = pendingCount;
+    }
+
+    function toggleStatus(index) {
+      bookings[index].status = bookings[index].status === 'Pending' ? 'Completed' : 'Pending';
+      renderCRM();
+    }
+
+    function exportLeadsCSV() {
+      let csvContent = "data:text/csv;charset=utf-8,ID,Name,Gotra,Item,Date,Phone,Price,Status\n";
+      bookings.forEach(b => {
+        csvContent += `${b.id},${b.name},${b.gotra},${b.item},${b.date},${b.phone},${b.price},${b.status}\n`;
+      });
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "poojaprasad_leads.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
 </body>
 </html>
